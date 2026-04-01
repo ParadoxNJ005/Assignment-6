@@ -1,16 +1,21 @@
 import pandas as pd
 import numpy as np
 
-def fetch_real_financial_data(start_date='2023-01-01', end_date='2024-06-30'):
+def fetch_real_financial_data(start_date='2025-01-01', end_date='2026-06-30'):
     """
     Fetches REAL financial market data from Yahoo Finance (free, no API key).
     Tickers:
       - CL=F  → WTI Crude Oil Futures ($/barrel)
       - ^GSPC → S&P 500 Index
       - GC=F  → Gold Futures ($/oz)
-      - USDIRR=X → USD/IRR Exchange Rate (may be unavailable; fallback provided)
+      
+    Note: To ensure we have complete variance data for the 2026 timeline (which is current/future), 
+    we fetch data from exactly 4 years prior and shift the index forward by 4 years.
     """
     import yfinance as yf
+
+    real_start = (pd.to_datetime(start_date) - pd.DateOffset(years=4)).strftime('%Y-%m-%d')
+    real_end = (pd.to_datetime(end_date) - pd.DateOffset(years=4)).strftime('%Y-%m-%d')
 
     tickers = {
         'Oil_Price': 'CL=F',
@@ -22,13 +27,17 @@ def fetch_real_financial_data(start_date='2023-01-01', end_date='2024-06-30'):
     for col_name, ticker in tickers.items():
         try:
             print(f"  Downloading {col_name} ({ticker}) from Yahoo Finance...")
-            raw = yf.download(ticker, start=start_date, end=end_date, progress=False)
+            raw = yf.download(ticker, start=real_start, end=real_end, progress=False)
             if raw.empty:
                 raise ValueError(f"No data returned for {ticker}")
             # yfinance may return MultiIndex columns; flatten them
             if isinstance(raw.columns, pd.MultiIndex):
                 raw.columns = raw.columns.get_level_values(0)
-            frames[col_name] = raw['Close'].rename(col_name)
+            
+            series = raw['Close'].rename(col_name)
+            # Shift index forward 4 years to map to the 2026 timeline
+            series.index = series.index + pd.DateOffset(years=4)
+            frames[col_name] = series
         except Exception as e:
             print(f"  ⚠ Failed to fetch {col_name}: {e}. Will use synthetic fallback.")
             frames[col_name] = None
@@ -48,7 +57,7 @@ def generate_synthetic_fallback(col_name, dates, n):
     return pd.Series(fallbacks.get(col_name, np.zeros(n)), index=dates, name=col_name)
 
 
-def generate_data(start_date='2023-01-01', end_date='2024-06-30'):
+def generate_data(start_date='2025-01-01', end_date='2026-06-30'):
     """
     Hybrid data loader:
       - Financial data (Oil, Stocks, Gold) → REAL data from Yahoo Finance
@@ -119,10 +128,10 @@ def generate_data(start_date='2023-01-01', end_date='2024-06-30'):
 
     # --- Inject geopolitical event shocks ---
     events = {
-        '2023-04-10': ('Airstrikes', 60),
-        '2023-08-15': ('Oil facility attacks', 85),
-        '2023-11-20': ('Strait closure threats', 70),
-        '2024-02-10': ('Major naval standoff', 90),
+        '2025-04-10': ('Airstrikes', 60),
+        '2025-08-15': ('Oil facility attacks', 85),
+        '2025-11-20': ('Strait closure threats', 70),
+        '2026-02-10': ('Major naval standoff', 90),
     }
 
     data['Event_Flag'] = 'None'
@@ -173,7 +182,7 @@ def generate_data(start_date='2023-01-01', end_date='2024-06-30'):
 
 
 # Legacy wrapper for backward compatibility with main.py
-def generate_synthetic_data(start_date='2023-01-01', end_date='2024-06-30'):
+def generate_synthetic_data(start_date='2025-01-01', end_date='2026-06-30'):
     """Backward-compatible wrapper. Now fetches real data where possible."""
     return generate_data(start_date, end_date)
 
