@@ -18,11 +18,15 @@ __pycache__/
 Thumbs.db
 desktop.ini
 
-# Course notes (not part of submission)
+# Course notes (personal study materials, not part of submission)
 Course/
 
-# Gemini / AI agent files
+# Personal study files
+study.md
+
+# Gemini / AI agent config
 .gemini/
 .agents/
-Context.md
-study.md
+
+# Old submission archives
+*.zip

@@ -5,14 +5,14 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 import os
-# Create outputs dir if not exists
-os.makedirs('outputs', exist_ok=True)
+# Create output directories if not exists
+os.makedirs('outputs/charts', exist_ok=True)
 
 def set_style():
     sns.set_theme(style="whitegrid", palette="muted")
     plt.rcParams.update({'font.size': 12, 'figure.figsize': (10, 6)})
 
-def plot_time_series_correlation(df, save_path='outputs/A_time_series_correlation.png'):
+def plot_time_series_correlation(df, save_path='outputs/charts/A_time_series_correlation.png'):
     """
     A: Plots for Time-series correlation analysis
     - Oil prices vs Stock market
@@ -65,7 +65,7 @@ def plot_time_series_correlation(df, save_path='outputs/A_time_series_correlatio
     plt.savefig(save_path, dpi=300)
     plt.close()
 
-def plot_multi_axis(df, save_path='outputs/B_multi_axis.png'):
+def plot_multi_axis(df, save_path='outputs/charts/B_multi_axis.png'):
     """
     B: Multi-axis visualization
     Y1: Oil, Y2: Stock, Y3: CO2
@@ -103,7 +103,7 @@ def plot_multi_axis(df, save_path='outputs/B_multi_axis.png'):
     plt.savefig(save_path, dpi=300)
     plt.close()
 
-def plot_geospatial(save_path='outputs/C_geospatial_map.png'):
+def plot_geospatial(save_path='outputs/charts/C_geospatial_map.png'):
     """
     C: Geospatial visualization.
     Generates a static conceptual map using Matplotlib to guarantee 0-second load times
@@ -144,7 +144,7 @@ def plot_geospatial(save_path='outputs/C_geospatial_map.png'):
     plt.close()
 
 
-def plot_heatmap(df, save_path='outputs/D_heatmap_correlation.png'):
+def plot_heatmap(df, save_path='outputs/charts/D_heatmap_correlation.png'):
     """
     D: Heatmap correlation matrix
     Among: Oil, Stock, Gold, Inflation, CO2, Exchange Rate, Conflict Intensity
@@ -159,7 +159,7 @@ def plot_heatmap(df, save_path='outputs/D_heatmap_correlation.png'):
     plt.savefig(save_path, dpi=300)
     plt.close()
 
-def plot_event_impact(df, save_path='outputs/E_event_impact.png'):
+def plot_event_impact(df, save_path='outputs/charts/E_event_impact.png'):
     """
     E: Event impact visualization
     Annotate major events on the primary variable (e.g., Oil Price or Conflict Index)
@@ -186,7 +186,7 @@ def plot_event_impact(df, save_path='outputs/E_event_impact.png'):
     plt.savefig(save_path, dpi=300)
     plt.close()
 
-def plot_lag_analysis(df, save_path='outputs/F_lag_analysis.png'):
+def plot_lag_analysis(df, save_path='outputs/charts/F_lag_analysis.png'):
     """
     F: Causal / lag analysis
     Lag plots or cross-correlation charts for Oil -> Stock, Conflict -> Inflation.
