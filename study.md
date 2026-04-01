@@ -9,7 +9,7 @@
 > **Goal:** Understand what your project does so you can explain it confidently in 2 sentences.
 
 ### What does your project do?
-It analyzes how a **simulated Iran-USA war** (Jan 2023 – Jul 2024) impacts **financial markets** (Oil, Stocks, Gold, Inflation) and **environmental indicators** (CO2 Emissions). It uses Python to generate data, process it, create 6 charts, and display everything in a professional Streamlit dashboard.
+It analyzes how the **Iran-USA geopolitical conflict** (Jan 2023 – Jun 2024) impacts **financial markets** (Oil, Stocks, Gold, Inflation) and **environmental indicators** (CO2 Emissions). It uses a **hybrid data strategy** — real financial data from Yahoo Finance + synthetic conflict/environmental data — processes it through a feature engineering pipeline, creates 6 analytical charts, and displays everything in a professional Streamlit dashboard.
 
 ### The Pipeline (4 Steps)
 ```
@@ -19,17 +19,30 @@ Step 1: Generate Data  →  Step 2: Clean & Align  →  Step 3: Engineer Feature
 
 ### How to Run It
 ```bash
-# Step 1: Generate charts
+# Step 1: Install dependencies
+pip install -r requirements.txt
+
+# Step 2: Generate charts (fetches real data from Yahoo Finance)
 python main.py
 
-# Step 2: Launch the interactive dashboard
+# Step 3: Launch the interactive dashboard
 streamlit run app.py
 ```
 
-### Why Synthetic Data?
-- Real financial APIs (like Yahoo Finance) have **rate limits** and need **API keys**
-- Synthetic data ensures the project works **100% offline** during evaluation
-- The data still **mimics real-world patterns** (e.g., oil price spikes during conflicts)
+### Data Source Strategy (Hybrid)
+The project uses a **hybrid real + synthetic** approach:
+
+| Data | Source | Why? |
+|------|--------|------|
+| Oil Price (WTI Crude) | **Yahoo Finance** (`CL=F`) | Free, no API key, daily data |
+| S&P 500 Stock Index | **Yahoo Finance** (`^GSPC`) | Free, no API key, daily data |
+| Gold Futures | **Yahoo Finance** (`GC=F`) | Free, no API key, daily data |
+| Conflict Intensity | **Synthetic** | ACLED requires institutional OAuth registration |
+| CO2 Emissions | **Synthetic** | Global Carbon Project provides annual data only, not daily |
+| Inflation (CPI) | **Synthetic** | FRED provides monthly data only, not daily |
+| Exchange Rate (IRR) | **Synthetic** | USD/IRR unreliable on Yahoo Finance |
+
+If Yahoo Finance is unreachable (no internet), the pipeline **gracefully falls back** to synthetic data for all variables.
 
 ---
 
@@ -207,10 +220,10 @@ $$r = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum(x_i - \bar{x})^2 \cdo
 ## 🎤 PART D — PROBABLE VIVA QUESTIONS & ANSWERS (Study Tomorrow)
 
 ### Q1: "Explain your project in 2 lines."
-> "This project analyzes how the Iran-USA geopolitical conflict impacts financial markets and environmental indicators using 6 multimodal visualizations. I built a complete Python pipeline that generates synthetic data, engineers analytical features, and presents insights via an interactive Streamlit dashboard."
+> "This project analyzes how the Iran-USA geopolitical conflict impacts financial markets and environmental indicators using 6 multimodal visualizations. I built a hybrid data pipeline that fetches real market data from Yahoo Finance, supplements it with synthetic conflict and environmental data, engineers analytical features, and presents insights via an interactive Streamlit dashboard."
 
-### Q2: "Why did you use synthetic data instead of real data?"
-> "Real financial APIs like Yahoo Finance have rate limits and require API keys. To ensure the project runs 100% offline during evaluation — without any internet dependency — I procedurally generated realistic data that mimics real-world economic responses to geopolitical shocks."
+### Q2: "Where does your data come from?"
+> "I use a hybrid approach. Oil, S&P 500, and Gold prices are **real data** fetched from Yahoo Finance using the `yfinance` library — it's completely free and needs no API key. For conflict intensity, I couldn't use ACLED because it requires institutional OAuth registration. For daily CO2 data, the Global Carbon Project only publishes annually. So those are modelled synthetically with realistic decay patterns. The pipeline has graceful fallback — if there's no internet, everything still works with synthetic data."
 
 ### Q3: "What is Visual Analytics?"
 > "Visual Analytics combines three things: automatic computation (like my Python scripts), visual representations (my 6 charts), and human interaction (the Streamlit dashboard where users can explore). It's an iterative process — you look at charts, form hypotheses, test them with computation, and refine."
@@ -246,7 +259,7 @@ $$r = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum(x_i - \bar{x})^2 \cdo
 > "Anscombe's Quartet is 4 datasets that have identical statistical summaries (same mean, variance, correlation) but look completely different when visualized. This proves you MUST visualize data, not just compute statistics. That's exactly why my project builds 6 charts rather than just printing numbers."
 
 ### Q13: "What tools and libraries did you use?"
-> "**pandas** for data manipulation, **numpy** for numerical operations, **matplotlib** and **seaborn** for static charts, **plotly** for the interactive geospatial map, and **streamlit** for the web dashboard."
+> "**yfinance** for fetching real financial data from Yahoo Finance, **pandas** for data manipulation, **numpy** for numerical operations, **matplotlib** and **seaborn** for static charts, **plotly** for the interactive geospatial map, and **streamlit** for the web dashboard."
 
 ### Q14: "What is the key insight from your analysis?"
 > "Three main insights: (1) Oil shocks lead stock market drops by 1–4 days. (2) Inflation takes 7–14 days to respond to conflict — it's a lagging indicator. (3) Gold acts as a safe-haven asset: it consistently rises during conflict spikes, confirming its role as a hedge."
@@ -254,12 +267,16 @@ $$r = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum(x_i - \bar{x})^2 \cdo
 ### Q15: "What are the 10 components of Data Visualization?"
 > "Data, Visual Elements, Visualization Techniques, Interactivity, Color & Design, Context & Annotations, Tools & Platforms, Data Preparation, Data Exploration, and Dashboarding. My project covers all 10."
 
+### Q16: "Why didn't you use all real data?"
+> "I used real data wherever a free, daily API exists. Yahoo Finance provides Oil, S&P 500, and Gold data for free — no API key needed. But ACLED (conflict data) requires institutional OAuth registration through myACLED, and the Global Carbon Project only publishes CO2 data annually, not daily. FRED provides CPI/inflation data only monthly. Since this is a Visual Analytics assignment, I focused on building the visualization pipeline and used synthetic models for the unavailable daily data sources. The pipeline is designed to be **swappable** — plug in a real CSV and everything downstream works unchanged."
+
 ---
 
 ## 🚀 QUICK REVISION CHECKLIST (Glance Before Eval)
 
-- [ ] Can I run `python main.py` and `streamlit run app.py` without errors?
+- [ ] Can I run `pip install -r requirements.txt`, then `python main.py` and `streamlit run app.py` without errors?
 - [ ] Can I explain what each of the 6 charts shows in one sentence?
+- [ ] Can I explain the hybrid data strategy (yfinance = real, conflict/CO2 = synthetic)?
 - [ ] Can I name 3 feature engineering techniques used (volatility, oil shock, lag)?
 - [ ] Can I explain what ffill does and why it's needed?
 - [ ] Can I explain why heatmaps rank low perceptually (color channel)?

@@ -11,8 +11,11 @@
 The objective of this project is to perform a multimodal visual analysis of a simulated timeline detailing the Iran-USA geopolitical conflict (January 2023 - June 2024). The analysis evaluates the compounding effects of conflict events—such as airstrikes and naval standoffs in the Strait of Hormuz—on key macroeconomic variables (Oil, S&P 500, Gold, Inflation, Exchange Rate) and environmental indicators (CO2 emissions proxies).
 
 ### 2. Data Design and Preprocessing
-Given the difficulty of aligning high-frequency historical data across disparate free APIs simultaneously, a robust synthetic dataset was procedurally generated mirroring documented economic responses to geopolitical shocks.
-- **Data Integration Pipeline:** The `data_loader.py` script synthesizes 547 daily records encompassing 7 fundamental indicators alongside an integrated `Conflict_Intensity` index and an `Event_Flag`.
+The project employs a **hybrid data strategy**, combining real-world financial market data with synthetic conflict and environmental indicators.
+- **Real Market Data (Yahoo Finance):** Oil prices (WTI Crude Futures, `CL=F`), S&P 500 Index (`^GSPC`), and Gold Futures (`GC=F`) are fetched directly from Yahoo Finance using the `yfinance` Python library — free, no API key required.
+- **Synthetic Data (Where Free Daily APIs Unavailable):** Conflict intensity events are modelled synthetically because ACLED requires institutional OAuth registration. Daily CO2 emissions are synthetic because the Global Carbon Project publishes annually. Inflation (CPI) is synthetic because FRED provides monthly data only.
+- **Graceful Fallback:** If Yahoo Finance is unreachable (e.g., no internet), the pipeline automatically falls back to procedurally generated synthetic data for all variables, ensuring the project always runs offline.
+- **Data Integration Pipeline:** The `data_loader.py` script produces 547 daily records encompassing 7 fundamental indicators alongside an integrated `Conflict_Intensity` index and an `Event_Flag`.
 - **Time Alignment Logic:** The `preprocess.py` module resamples and aligns the metrics. Forward filling (`ffill`) ensures continuity for financial data across weekends and holidays, establishing a clean daily timescale for exact lag-analysis and rolling derivations.
 
 ### 3. Feature Engineering
@@ -44,7 +47,7 @@ The pipeline engineers several high-level analytical variables (`features.py`):
 - **Observation:** The lag analysis chart demonstrates that an oil price shock typically leads the stock market decline by 1 to 4 days (peak negative correlation at lag -3). Conversely, inflation shows a much longer tail, peaking in correlation with conflict intensity 7 to 14 days after the initial event. 
 
 ### 5. Limitations
-- **Synthetic Data:** While the dataset realistically mimics historical elasticity (e.g., Beta of stocks to oil during Gulf conflicts), it is procedurally generated. Real-world structural breaks may exhibit flatter tails or sharper intra-day corrections not fully captured by daily Gaussian distributions.
+- **Hybrid Data:** Financial market data (Oil, Stocks, Gold) is real from Yahoo Finance, but conflict intensity, CO2 emissions, and inflation are synthetically modelled due to the lack of free, daily APIs. Real-world structural breaks may exhibit different tail behavior.
 - **Omitted Variables:** Real-world analyses should ideally include secondary policy responses (e.g., Federal Reserve rate hikes acting as confounding variables).
 
 ### 6. Policy Implications

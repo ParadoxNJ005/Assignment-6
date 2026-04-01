@@ -3,39 +3,68 @@
 **Author:** Krishna Sikheriya  
 **Roll Number:** IIT2023139
 
-This repository contains the full end-to-end Python solution for the Multimodal Visual Analytics assignment evaluating the impact of the Iran-USA War on financial markets and environmental indicators.
+This project performs a multimodal visual analysis of how the Iran-USA geopolitical conflict (Jan 2023 – Jun 2024) impacts financial markets and environmental indicators, using a hybrid data pipeline and an interactive Streamlit dashboard.
 
 ## Project Structure
-- `data/`: Extracted raw and processed synthetic datasets.
-- `outputs/`: Output charts (A-F), CSV unified dataset, and the generated Report (`report.md`).
-- `src/`: Core Python modules for generating data, preprocessing, feature engineering, and visualization.
-- `main.py`: The orchestrator script.
+```
+Assignment 6/
+├── app.py                  # Streamlit dashboard (interactive UI)
+├── main.py                 # Pipeline orchestrator
+├── requirements.txt        # Python dependencies
+├── src/
+│   ├── data_loader.py      # Hybrid data fetcher (Yahoo Finance + synthetic)
+│   ├── preprocess.py       # Time alignment & imputation
+│   ├── features.py         # Feature engineering pipeline
+│   └── visualizations.py   # Chart generation (6 visualizations)
+├── data/                   # Generated datasets
+├── outputs/                # Charts (PNG) + report (MD) + unified CSV
+└── Course/                 # Lecture notes & study materials
+```
 
-## System Requirements
-- Python 3.8+
-- Required libraries are included in the environment setup: `pandas`, `numpy`, `matplotlib`, `seaborn`, `plotly`.
+## Data Sources (Hybrid Strategy)
+
+| Data Variable | Source | Type |
+|--------------|--------|------|
+| Oil Price (WTI Crude) | Yahoo Finance (`CL=F`) | **Real** |
+| S&P 500 Index | Yahoo Finance (`^GSPC`) | **Real** |
+| Gold Futures | Yahoo Finance (`GC=F`) | **Real** |
+| Conflict Intensity | Procedurally generated | Synthetic (ACLED requires OAuth) |
+| CO2 Emissions | Procedurally generated | Synthetic (annual data only) |
+| Inflation (CPI) | Procedurally generated | Synthetic (monthly data only) |
+| Exchange Rate (IRR) | Procedurally generated | Synthetic (unreliable on Yahoo) |
+
+> **Graceful Fallback:** If Yahoo Finance is unreachable (no internet), all variables automatically fall back to synthetic data.
 
 ## How to Run
-1. Ensure you have Python installed.
-2. Open a terminal in the project root directory (`Assignment 6`).
-3. (Optional) Create and activate a virtual environment:
-   ```bash
-   python -m venv .venv
-   .\.venv\Scripts\activate
-   pip install pandas numpy matplotlib seaborn plotly
-   ```
-4. Run the main orchestrator script to generate the static files:
-   ```bash
-   python main.py
-   ```
-5. **(New) Run the interactive Streamlit Dashboard:**
-   ```bash
-   streamlit run app.py
-   ```
-6. Navigate to the `outputs/` folder to view the generated static PNG/HTML visualizing charts and the `report.md`.
 
-## Features
-- **Reproducible Data**: Uses a realistic, fully procedural synthetic timeline spanning 2023-2024 to mimic Iran-USA conflict events without requiring paid live API keys.
-- **Complete Pipeline**: Includes daily time alignment, missing value interpolation, rolling volatility tracking, and 7-day impact lags.
+### 1. Install Dependencies
+```bash
+python -m venv .venv
+.\.venv\Scripts\activate      # Windows
+pip install -r requirements.txt
+```
 
-*Note: As per assignment guidelines, realistic demo data has been utilized to ensure the project runs seamlessly offline for evaluation without the risk of API deprecation or rate limits.*
+### 2. Generate Data & Charts
+```bash
+python main.py
+```
+This fetches real financial data from Yahoo Finance and generates all 6 visualizations in `outputs/`.
+
+### 3. Launch the Interactive Dashboard
+```bash
+streamlit run app.py
+```
+
+## Visualizations
+1. **Geospatial Map** — Interactive Plotly map of conflict zones & oil chokepoints
+2. **Time-Series Correlation** — 3-panel synchronized analysis (Oil vs Stocks vs CO2)
+3. **Multi-Axis Dynamics** — Triple Y-axis plot (Oil, Stocks, CO2 on unified timeline)
+4. **Correlation Heatmap** — Pearson correlation matrix across all variables
+5. **Event Impact Timeline** — Annotated conflict events overlaid on oil prices
+6. **Lag & Causal Analysis** — Cross-correlation bar charts for temporal lag detection
+
+## Tech Stack
+- **Data Fetching:** `yfinance` (Yahoo Finance API)
+- **Data Processing:** `pandas`, `numpy`
+- **Visualization:** `matplotlib`, `seaborn`, `plotly`
+- **Dashboard:** `streamlit`
