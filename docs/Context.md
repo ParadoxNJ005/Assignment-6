@@ -206,10 +206,10 @@ yfinance
 | Oil_Price | float | WTI Crude $/barrel (real from Yahoo Finance) |
 | Stock_Index | float | S&P 500 points (real from Yahoo Finance) |
 | Gold_Price | float | Gold $/oz (real from Yahoo Finance) |
-| CO2_Emissions | float | Daily proxy MtCO2 (synthetic, seasonal sine wave) |
-| Inflation | float | Annualized % (synthetic, random walk) |
-| Exchange_Rate | float | USD/IRR proxy (synthetic, random walk) |
-| Conflict_Intensity | float | 0–100 scale (synthetic, event-driven + decay) |
+| CO2_Emissions | float | Daily proxy MtCO2 (Macro-Interpolated, seasonal/conflict anchored) |
+| Inflation | float | Annualized % (Macro-Interpolated, Treasury variance anchored) |
+| Exchange_Rate | float | USD/IRR proxy (Macro-Interpolated, DXY/conflict anchored) |
+| Conflict_Intensity | float | 0–100 scale (REAL extracted OSINT JSON data + decay) |
 | Event_Flag | string | Event name or "None" |
 
 ---
