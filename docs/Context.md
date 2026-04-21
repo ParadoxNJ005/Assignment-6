@@ -9,10 +9,9 @@
 | Field | Value |
 |-------|-------|
 | **Title** | Multimodal Visual Analytics of Geopolitical Conflict |
-| **Student** | Krishna Sikheriya (IIT2023139) |
+| **Student** | Naitik Jain (IIB2023036) |
 | **Course** | Data Visualization Lab — Assignment 5 |
 | **Timeline Modelled** | January 2024 – June 2026 |
-| **GitHub Repo** | https://github.com/Krishna200608/Assignment-6.git |
 | **Branch** | `main` |
 
 ---
@@ -250,9 +249,8 @@ yfinance
 
 ## 12. Git & Submission
 
-- **Remote**: `https://github.com/Krishna200608/Assignment-6.git`
 - **Branch**: `main`
-- **Submission zip**: `IIT2023139_Assignment_5.zip` — excludes `.venv/`, `study.md`, `.git/`, `Course/`, `__pycache__/`
+- **Submission zip**: `IIB2023036_Assignment_5.zip` — excludes `.venv/`, `study.md`, `.git/`, `Course/`, `__pycache__/`
 - **.gitignore** excludes: `.venv/`, `__pycache__/`, `.vscode/`, `.idea/`, `Course/`, `study.md`, `.gemini/`, `.agents/`, `*.zip`, OS files
 
 ---
@@ -298,5 +296,5 @@ yfinance
 | Run full pipeline | `.\.venv\Scripts\python.exe main.py` |
 | Launch dashboard | `.\.venv\Scripts\python.exe -m streamlit run app.py` |
 | Install deps | `.\.venv\Scripts\python.exe -m pip install -r requirements.txt` |
-| Create submission zip | `Compress-Archive -Path app.py,main.py,requirements.txt,README.md,.gitignore,data,docs,outputs,src -DestinationPath IIT2023139_Assignment_5.zip -Force` |
+| Create submission zip | `Compress-Archive -Path app.py,main.py,requirements.txt,README.md,.gitignore,data,docs,outputs,src -DestinationPath IIB2023036_Assignment_5.zip -Force` |
 | Push to GitHub | `git add -A && git commit -m "message" && git push origin main` |
