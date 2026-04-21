@@ -1,8 +1,5 @@
 # 📖 Comprehensive Study Guide: DV Lab Assignment 5
-**Student:** Krishna Sikheriya (IIT2023139)  
-**Exam Format:** Live Demo + Viva (Q&A) | **Marks:** 15 (B.Tech)
-**Focus:** Deep structural analysis of Geopolitical Conflict Analytics Pipeline
-
+**Student:** Naitik Jain (IIB2023036)  
 ---
 
 ## 🏗️ PART A — ARCHITECTURE & DATA STRATEGY
