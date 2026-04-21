@@ -120,4 +120,4 @@ streamlit run app.py
 
 ---
 
-> **Developer:** Krishna Sikheriya (IIT2023139) | DV Lab Assignment 5 Evaluation
+> **Developer:** Naitik Jain (IIB2023036) | DV Lab Assignment 5 Evaluation
