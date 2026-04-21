@@ -1,9 +1,8 @@
 # Multimodal Visual Analytics of Geopolitical Conflict
 ## Impact of Iran-USA War on Financial Markets and Environmental Indicators
 
-**Author:** Krishna Sikheriya
-
-**Roll Number:** IIT2023139
+**Author:** Naitik Jain
+**Roll Number:** IIB2023036
 
 ---
 
