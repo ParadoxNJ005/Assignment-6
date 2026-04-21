@@ -22,7 +22,7 @@ This repository contains a professional-grade analytical pipeline designed to mo
 - **Real & Macro-Interpolated Architecture**: Blends real-world Yahoo Finance API data (WTI Crude, S&P 500, Gold, Treasury Yields) with parsed Middle East OSINT missile trackers. Unavailable daily indicators are securely interpolated utilizing live financial anchors.
 - **Resilient Pipeline**: Includes auto-imputation (ffill/bfill) across weekends, temporal lag generation (up to 10 days), and rolling 7-day market volatility trackers.
 - **Multimodal Visualizations**: Employs interactive `plotly` maps alongside high-fidelity static `matplotlib` and `seaborn` charts spanning time-series, heatmaps, and event annotation. 
-- **Offline Reliability**: Gracefully falls back to local JSON/CSV cache if external APIs are temporarily blocked.
+- **Offline Reliability**: Gracefully falls back to local JSON/CSV cache if external APIs are temporarily blocked. 
 
 ---
 
